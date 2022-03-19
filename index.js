@@ -14,7 +14,8 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-const { isLoggedIn } = require('./utils/middleware')
+const { isLoggedIn } = require('./utils/middleware');
+const mongoSanitize = require('express-mongo-sanitize');
 
 //#region DataBase
 const uri = process.env.MongoDbURI;
@@ -38,6 +39,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(mongoSanitize());
 
 //Session
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
