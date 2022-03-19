@@ -1,0 +1,147 @@
+<% layout('layouts/boilerplate') %>
+<main class="container d-flex align-items-center justify-content-center" style="min-height: 85vh">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <h1>Register</h1>
+            <form action="/user/register" method="POST" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend1">@</span>
+                        <input type="text" class="form-control"
+                            aria-describedby="inputGroupPrepend1 validationDefaultUsername" id="username"
+                            name="username" required>
+                        <div id="validationDefaultUsername" class="invalid-feedback">
+                            Please choose a username.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" aria-describedby="validationDefaultEmail" id="email"
+                        name="email" required>
+                    <div id="validationDefaultEmail" class="invalid-feedback">
+                        Please enter a valid email address.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password <i class="bi bi-eye-slash-fill"
+                            id="pwVisToggle"></i>
+                    </label>
+                    <input type="password" class="form-control" aria-describedby="validationDefaultPassword"
+                        id="password" name="password" required>
+                    <div id="passwordScore" class="form-text"></div>
+                    <div id="validationDefaultPassword" class="invalid-feedback">
+                        Please choose a password.
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary" type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <img src="/images/register.svg" alt="" class="img-fluid">
+        </div>
+    </div>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+        document.getElementById('pwVisToggle').addEventListener("click", togglePwVisibility);
+        document.getElementById('password').addEventListener("input", scorePw);
+
+        function togglePwVisibility() {
+            pw = document.getElementById('password');
+            pwt = document.getElementById('pwVisToggle');
+            if (pw.type === "password") {
+                pw.type = 'text';
+                pwt.classList.remove("bi-eye-slash-fill");
+                pwt.classList.add("bi-eye-fill");
+            } else {
+                pw.type = 'password';
+                pwt.classList.remove("bi-eye-fill");
+                pwt.classList.add("bi-eye-slash-fill");
+            }
+        }
+
+        function scorePw(evnt) {
+            const value = evnt.currentTarget.value;
+            const pw = document.getElementById('password');
+            const pws = document.getElementById('passwordScore');
+            if (value !== "") {
+                const score = calcPwStrength(value);
+                if (score > 0) {
+                    pw.classList.remove('c-warning');
+                    pw.classList.add('c-danger');
+                    pws.innerText = 'Too weak';
+                }
+                if (score > 40) {
+                    pw.classList.remove('c-danger');
+                    pw.classList.remove('c-success');
+                    pw.classList.add('c-warning');
+                    pws.innerText = 'Could be stronger';
+                }
+                if (score > 70) {
+                    pw.classList.remove('c-warning');
+                    pw.classList.add('c-success');
+                    pws.innerText = 'Strong!';
+                }
+                if (score > 80) {
+                    pws.innerText = 'Fucking strong!';
+                }
+            } else {
+                pw.classList.remove('c-danger');
+                pw.classList.remove('c-warning');
+                pw.classList.remove('c-success');
+                pws.innerText = '';
+            }
+        }
+
+        function calcPwStrength(pass) {
+            var score = 0;
+            if (!pass)
+                return score;
+
+            // award every unique letter until 5 repetitions
+            var letters = new Object();
+            for (var i = 0; i < pass.length; i++) {
+                letters[pass[i]] = (letters[pass[i]] || 0) + 1;
+                score += 5.0 / letters[pass[i]];
+            }
+
+            // bonus points for mixing it up
+            var variations = {
+                digits: /\d/.test(pass),
+                lower: /[a-z]/.test(pass),
+                upper: /[A-Z]/.test(pass),
+                nonWords: /\W/.test(pass),
+            }
+
+            var variationCount = 0;
+            for (var check in variations) {
+                variationCount += (variations[check] == true) ? 1 : 0;
+            }
+            score += (variationCount - 1) * 10;
+
+            return parseInt(score);
+        }
+    </script>
+</main>

@@ -1,0 +1,70 @@
+<% layout('layouts/boilerplate') %>
+<main class="container d-flex align-items-center justify-content-center" style="min-height: 85vh">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <h1>Login</h1>
+            <form action="/user/login" method="POST" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="identifier" class="form-label">Email address or Username</label>
+                    <input type="text" class="form-control" id="identifier" name="identifier"
+                        aria-describedby="validationDefaultIdentifier" required>
+                    <div id="validationDefaultIdentifier" class="invalid-feedback">
+                        Please enter your email address or Username.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password <i class="bi bi-eye-slash-fill"
+                            id="pwVisToggle"></i></label>
+                    <input type="password" class="form-control" id="password" name="password"
+                        aria-describedby="validationDefaultPassword" required>
+                    <div id="validationDefaultPassword" class="invalid-feedback">
+                        Please enter your password.
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <img src="/images/login.svg" alt="" class="img-fluid">
+        </div>
+    </div>
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+        document.getElementById('pwVisToggle').addEventListener("click", togglePwVisibility);
+
+        function togglePwVisibility() {
+            pw = document.getElementById('password');
+            pwt = document.getElementById('pwVisToggle');
+            if (pw.type === "password") {
+                pw.type = 'text';
+                pwt.classList.remove("bi-eye-slash-fill");
+                pwt.classList.add("bi-eye-fill");
+            } else {
+                pw.type = 'password';
+                pwt.classList.remove("bi-eye-fill");
+                pwt.classList.add("bi-eye-slash-fill");
+            }
+        }
+    </script>
+</main>
