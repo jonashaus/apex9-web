@@ -45,7 +45,7 @@ router.post('/register', validateUser, wrapAsync(async (req, res, next) => {
         req.login(registeredUser, err => {
             if (err) return next(err);
             req.flash('success', 'Welcome to apex9!');
-            res.redirect(`/user/${registeredUser.username}`);
+            res.redirect(`/user/@${registeredUser.username}`);
         })
     } catch (err) {
         throw new ExpressError(500, err.message);
