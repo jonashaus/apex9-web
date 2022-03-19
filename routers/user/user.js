@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const User = require('../../models/user');
-const Joi = require('joi');
 const { isLoggedIn } = require('../../utils/middleware');
 const wrapAsync = require('../../utils/wrapAsync');
 const { userSchema } = require('../../schemas');
