@@ -37,7 +37,7 @@ app.set('view engine', 'ejs');
 //#region Uses
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, '/public')));
 
 //Session
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
