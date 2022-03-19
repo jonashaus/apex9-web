@@ -45,7 +45,7 @@ router.post('/register', validateUser, wrapAsync(async (req, res, next) => {
         req.login(registeredUser, err => {
             if (err) return next(err);
             req.flash('success', 'Welcome to apex9!');
-            res.redirect(`/user/${registeredUser.id}`);
+            res.redirect(`/user/${registeredUser.username}`);
         })
     } catch (err) {
         throw new ExpressError(500, err.message);
@@ -65,7 +65,7 @@ router.post('/login', mapIdentifierToUsername, passport.authenticate('local', { 
     try {
         const redirectUrl = req.session.originalUrl || '/';
         delete req.session.originalUrl;
-        //req.flash('success', 'Welcome back!');
+        req.flash('success', 'Welcome back!');
         res.redirect(redirectUrl);
     } catch (err) {
         throw new ExpressError(500, err.message);
