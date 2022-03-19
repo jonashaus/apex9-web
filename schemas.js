@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const BaseJoi = require('joi');
 const sanitizeHtml = require('sanitize-html');
 
 const extension = (joi) => ({
@@ -21,7 +21,7 @@ const extension = (joi) => ({
     }
 });
 
-const Joi = Joi.extend(extension)
+const Joi = BaseJoi.extend(extension)
 
 module.exports.userSchema = Joi.object({
     username: Joi.string()

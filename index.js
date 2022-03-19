@@ -7,7 +7,6 @@ const ExpressError = require('./utils/ExpressError');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const Joi = require('joi');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
