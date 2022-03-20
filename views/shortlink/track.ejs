@@ -1,0 +1,38 @@
+<% layout('layouts/boilerplate') %>
+<main class="container">
+    <div class="d-flex align-items-center mb-3">
+        <h1 class="me-auto"><%=shortlink.name%> </h1>
+        <a href="<%=shortlink.destinationURL%>" class="btn btn-primary ms-3" role="button">Launch</a>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            Chart
+        </div>
+        <div class="col-md-4">
+            <h3>Properties</h3>
+            <div class="d-flex align-items-center">
+                <p class="me-auto mb-0 fw-bold">Destination URL</p>
+                <small><%=shortlink.destinationURL%> </small>
+            </div>
+            <hr>
+            <div class="d-flex align-items-center">
+                <p class="me-auto mb-0 fw-bold">New URL</p>
+                <small><%=computeShortlink(shortlink.destinationURL)%> </small>
+            </div>
+            <hr>
+            <div class="d-flex align-items-center">
+                <p class="me-auto mb-0 fw-bold">Description</p>
+                <small><%=shortlink.description%></small>
+            </div>
+            <hr>
+        </div>
+    </div>
+    <script>
+        function computeShortlink(name) {
+            const value = name.replace(' ', '_');
+            const currentURL = window.location.href;
+            return currentURL.substring(0, currentURL.lastIndexOf("/") + 1).substring(0, currentURL.lastIndexOf("/") +
+                1) + "@" + encodeURI(value);
+        }
+    </script>
+</main>

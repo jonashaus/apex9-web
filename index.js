@@ -65,11 +65,14 @@ app.use((req, res, next) => {
     res.locals.error = req.flash('error');
     next();
 })
+//#endregion
 
-//Routes
+//#region Routes
 const userRoutes = require('./routers/user/user');
+const shortlinkRoutes = require('./routers/shortlink');
 const exp = require('constants');
 app.use('/user', userRoutes);
+app.use('/s', shortlinkRoutes);
 //#endregion
 
 app.get('/', (req, res) => {

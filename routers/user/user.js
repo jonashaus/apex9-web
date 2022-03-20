@@ -28,7 +28,7 @@ const mapIdentifierToUsername = wrapAsync(async (req, res, next) => {
     next();
 })
 
-router.get('/register', (req, res) => {
+router.get('/register', (req, res, next) => {
     if (!req.app.locals.currentUser) {
         res.render('user/register');
     } else {
@@ -51,7 +51,7 @@ router.post('/register', validateUser, wrapAsync(async (req, res, next) => {
     }
 }))
 
-router.get('/login', (req, res) => {
+router.get('/login', (req, res, next) => {
     if (!req.app.locals.currentUser) {
         res.render('user/login');
     } else {
@@ -60,7 +60,7 @@ router.get('/login', (req, res) => {
     }
 })
 
-router.post('/login', mapIdentifierToUsername, passport.authenticate('local', { failureFlash: true, failureRedirect: 'login' }), wrapAsync(async (req, res) => {
+router.post('/login', mapIdentifierToUsername, passport.authenticate('local', { failureFlash: true, failureRedirect: 'login' }), wrapAsync(async (req, res, next) => {
     try {
         const redirectUrl = req.session.originalUrl || '/';
         delete req.session.originalUrl;
