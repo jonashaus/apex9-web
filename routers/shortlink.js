@@ -82,6 +82,7 @@ router.get('/@:name', wrapAsync(async (req, res, next) => {
             return res.redirect('/');
         } else {
             const reqInfo = requestInfo(req);
+            reqInfo.ip = '87.102.164.101'; //REMOVE LATER
             if (process.env.NODE_ENV !== "production") {
                 reqInfo.ip = '87.102.164.101';
             }
