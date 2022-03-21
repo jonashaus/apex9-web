@@ -85,9 +85,12 @@ router.get('/@:name', wrapAsync(async (req, res, next) => {
             if (process.env.NODE_ENV !== "production") {
                 reqInfo.ip = '87.102.164.101';
             }
+            if (reqInfo.ip.substr(0, 7) == "::ffff:") {
+                reqInfo.ip = reqInfo.ip.substr(7)
+            }
             const geodata = geoIP.lookup(reqInfo.ip);
-            console.log(process.env.NODE_ENV);
             console.log(reqInfo);
+            console.log(geodata);
             shortlinkaccess = await new ShortlinkAccess({
                 shortlink: shortlink,
                 timestamp: new Date(),
