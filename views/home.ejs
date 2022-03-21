@@ -1,59 +1,72 @@
 <% layout('layouts/boilerplate') %>
-<main class="container d-flex align-items-center justify-content-center" style="min-height: 85vh">
-    <div class="row text-center justify-content-center">
-        <section>
-            <h1><span class="badge bg-success mt-3">Implemented</span> Areas</h1>
-            <div class="row mb-3 justify-content-center">
-                <div class="col-md-6 col-lg-4 my-3">
-                    <div class="card">
-                        <h5 class="card-header">Shorten custom links</h5>
-                        <img src="/images/link_shortener.svg" class="card-img-top py-3 d-none d-md-flex" alt="..."
-                            style="max-height: 25vh;">
-                        <div class="card-body">
-                            <p class="card-text">Create shortlinks and track the traffic.</p>
-                            <a href="s" class="btn btn-primary">apex9<i>Shortify</i></a>
+<main class="container" style="min-height: 85vh">
+    <div>
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="area-active-tab" data-bs-toggle="pill"
+                    data-bs-target="#active-areas" type="button" role="tab" aria-controls="active-areas"
+                    aria-selected="true">Active</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="area-upcoming-tab" data-bs-toggle="pill" data-bs-target="#upcoming-areas"
+                    type="button" role="tab" aria-controls="upcoming-areas" aria-selected="false">Upcoming</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="active-areas" role="tabpanel" aria-labelledby="area-active-tab">
+                <h1><span class="badge bg-success mt-3">Implemented</span> Areas</h1>
+                <div class="row mb-3">
+                    <div class="col-md-6 col-lg-4 my-3">
+                        <div class="card">
+                            <h5 class="card-header">Shorten custom links</h5>
+                            <img src="/images/link_shortener.svg" class="card-img-top py-3 d-none d-md-flex" alt="..."
+                                style="max-height: 25vh;">
+                            <div class="card-body">
+                                <p class="card-text">Create shortlinks and track the traffic.</p>
+                                <a href="s" class="btn btn-primary">apex9<i>Shortify</i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <section>
-            <h1><span class="badge bg-warning mt-3">Upcoming</span> Areas</h1>
-            <div class="row mb-3 justify-content-center">
-                <div class="col-md-6 col-lg-4 my-3">
-                    <div class="card">
-                        <h5 class="card-header">Build your habits</h5>
-                        <img src="/images/daily.svg" class="card-img-top py-3 d-none d-md-flex" alt="..."
-                            style="max-height: 25vh;">
-                        <div class="card-body">
-                            <p class="card-text">Build healthy habits and track your progress.</p>
-                            <a href="life" class="btn btn-primary">apex9<i>Life</i></a>
+            <div class="tab-pane fade" id="upcoming-areas" role="tabpanel" aria-labelledby="area-upcoming-tab">
+                <h1><span class="badge bg-warning mt-3">Upcoming</span> Areas</h1>
+                <div class="row mb-3">
+                    <div class="col-md-6 col-lg-4 my-3">
+                        <div class="card">
+                            <h5 class="card-header">Build your habits</h5>
+                            <img src="/images/daily.svg" class="card-img-top py-3 d-none d-md-flex" alt="..."
+                                style="max-height: 25vh;">
+                            <div class="card-body">
+                                <p class="card-text">Build healthy habits and track your progress.</p>
+                                <a href="life" class="btn btn-primary">apex9<i>Life</i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-4 my-3">
-                    <div class="card">
-                        <h5 class="card-header">Unleash your creativity</h5>
-                        <img src="/images/graffiti.svg" class="card-img-top py-3 d-none d-md-flex" alt="..."
-                            style="max-height: 25vh;">
-                        <div class="card-body">
-                            <p class="card-text">Create and publish your own pixel art.</p>
-                            <a href="graffiti" class="btn btn-primary">apex9<i>Graffiti</i></a>
+                    <div class="col-md-6 col-lg-4 my-3">
+                        <div class="card">
+                            <h5 class="card-header">Unleash your creativity</h5>
+                            <img src="/images/graffiti.svg" class="card-img-top py-3 d-none d-md-flex" alt="..."
+                                style="max-height: 25vh;">
+                            <div class="card-body">
+                                <p class="card-text">Create and publish your own pixel art.</p>
+                                <a href="graffiti" class="btn btn-primary">apex9<i>Graffiti</i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-4 my-3">
-                    <div class="card">
-                        <h5 class="card-header">See what I'm working on</h5>
-                        <img src="/images/gallery.svg" class="card-img-top py-3 d-none d-md-flex" alt="..."
-                            style="max-height: 25vh;">
-                        <div class="card-body">
-                            <p class="card-text">Have a look at my current and upcoming projects.</p>
-                            <a href="gallery" class="btn btn-primary">apex9<i>Gallery</i></a>
+                    <div class="col-md-6 col-lg-4 my-3">
+                        <div class="card">
+                            <h5 class="card-header">See what I'm working on</h5>
+                            <img src="/images/gallery.svg" class="card-img-top py-3 d-none d-md-flex" alt="..."
+                                style="max-height: 25vh;">
+                            <div class="card-body">
+                                <p class="card-text">Have a look at my current and upcoming projects.</p>
+                                <a href="gallery" class="btn btn-primary">apex9<i>Gallery</i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 </main>

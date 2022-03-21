@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 <main class="container">
     <div class="d-flex align-items-center mb-3">
-        <h1 class="me-auto">Shortlink "<%=shortlink.name%>"</h1>
+        <h1 class="me-auto">Shortlink Information</h1>
         <a href="<%=shortlink.newURL%>" class="btn btn-primary ms-3" role="button">Launch</a>
     </div>
     <div class="row">
@@ -44,6 +44,11 @@
         </div>
         <div class="col-md-4">
             <h3 class="mb-3">Properties</h3>
+            <div class="d-flex align-items-center">
+                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Name</p>
+                <small class="d-inline-block text-truncate"><%=shortlink.name%></small>
+            </div>
+            <hr>
             <div class="d-flex align-items-center">
                 <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Description</p>
                 <small class="d-inline-block text-truncate"><%=shortlink.description%></small>

@@ -90,6 +90,12 @@ router.get('/@:name', wrapAsync(async (req, res, next) => {
                 reqInfo.ip = reqInfo.ip.substr(7)
             }
             const geodata = geoIP.lookup(reqInfo.ip);
+            console.log('forwarded-for: ' + req.header('x-forwarded-for'));
+            console.log('socket remote: ' + req.socket.remoteAccess);
+            console.log('connect remote:' + req.connection.remoteAddress);
+            console.log('req.ip:        ' + req.ip);
+            console.log('req.ips:       ' + req.ips);
+            console.log('--------------------------------')
             console.log(reqInfo);
             console.log(geodata);
             shortlinkaccess = await new ShortlinkAccess({
