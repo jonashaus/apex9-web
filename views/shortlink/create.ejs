@@ -17,7 +17,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="link" class="form-label">Destination URL</label>
-                    <input type="url" class="form-control" id="link" name="link" pattern="https://.*"
+                    <input type="url" class="form-control" id="link" name="destinationURL" pattern="https://.*"
                         placeholder="https://www.google.com/" required>
                     <div class="invalid-feedback">
                         Please enter a valid URL including 'https://'.
@@ -62,7 +62,7 @@
         document.getElementById('name').addEventListener("input", computeShortlink);
 
         function computeShortlink(evnt) {
-            const value = evnt.currentTarget.value.replace(' ', '_');
+            const value = evnt.currentTarget.value.replace(/ /g, '_');
             const slh = document.getElementById('nameHelp');
             if (value !== "") {
                 const currentURL = window.location.href;

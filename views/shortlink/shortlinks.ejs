@@ -7,15 +7,22 @@
             </a>
         </div>
 
+        <% if(shortlinks.length > 0) {%>
         <% for(let sl of shortlinks) {%>
         <div class="c-hover rounded row my-3">
-            <div class="col-md-6 align-self-center">
+            <div class="col align-self-center">
                 <h3 class="me-auto my-md-auto"><%=sl.name%></h3>
             </div>
-            <div class="col-md-6 my-1 mx-0 d-flex justify-content-md-end">
-                <a href="s/track/<%=sl.id%>" class="btn btn-warning ms-3" role="button"><i class="bi bi-pencil"></i></a>
+            <div class="col my-1 mx-0 d-flex justify-content-md-end">
+                <a href="s/track/<%=sl.id%>" class="btn btn-warning ms-3" role="button"><i class="bi bi-binoculars"></i>
+                    Track</a>
                 <a href="s/delete/<%=sl.id%>" class="btn btn-danger ms-3" role="button"><i class="bi bi-trash"></i></a>
             </div>
+        </div>
+        <% } %>
+        <% } else { %>
+        <div class="row d-flex align-items-center justify-content-center" style="min-height: 75vh">
+            <img src="/images/link_shortener.svg" alt="" class="img-fluid" style="max-height: 40vh; max-width: 60%;">
         </div>
         <% } %>
     </section>

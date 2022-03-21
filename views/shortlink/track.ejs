@@ -1,38 +1,69 @@
 <% layout('layouts/boilerplate') %>
 <main class="container">
     <div class="d-flex align-items-center mb-3">
-        <h1 class="me-auto"><%=shortlink.name%> </h1>
-        <a href="<%=shortlink.destinationURL%>" class="btn btn-primary ms-3" role="button">Launch</a>
+        <h1 class="me-auto">Shortlink "<%=shortlink.name%>"</h1>
+        <a href="<%=shortlink.newURL%>" class="btn btn-primary ms-3" role="button">Launch</a>
     </div>
     <div class="row">
-        <div class="col-md-8">
-            Chart
+        <div class="col-md-8 pe-md-5">
+            <h3 class="mb-3">Analysis</h3>
+            <% if(accesses.length > 0) {%>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Timestamp</th>
+                        <th scope="col" class="d-none d-lg-table-cell">IP</th>
+                        <th scope="col">Location</th>
+                        <th scope="col" class="d-none d-lg-table-cell">Coordinates</th>
+                        <th scope="col">Device</th>
+                        <th scope="col">Browser</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let access of accesses) {%>
+                    <tr>
+                        <td><%=access.timestamp.toLocaleString('de-DE')%></td>
+                        <td class="d-none d-lg-table-cell"><%=access.ip%></td>
+                        <td><%=access.location%></td>
+                        <td class="d-none d-lg-table-cell"><%=access.coordinates%></td>
+                        <td><%=access.device%></td>
+                        <td><%=access.browser%></td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+            <% } else { %>
+            <div class="row d-flex align-items-center justify-content-center text-center" style="min-height: 30vh">
+                <div class="col-12"><i>Once your shortlink has been accessed at least once, we will analyze the traffic
+                        for you.</i></div>
+                <div class="col-12"><img src="/images/location_tracking.svg" alt="" class="img-fluid"
+                        style="max-height: 25vh;">
+                </div>
+            </div>
+            <% } %>
         </div>
         <div class="col-md-4">
-            <h3>Properties</h3>
+            <h3 class="mb-3">Properties</h3>
             <div class="d-flex align-items-center">
-                <p class="me-auto mb-0 fw-bold">Destination URL</p>
-                <small><%=shortlink.destinationURL%> </small>
+                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Description</p>
+                <small class="d-inline-block text-truncate"><%=shortlink.description%></small>
             </div>
             <hr>
             <div class="d-flex align-items-center">
-                <p class="me-auto mb-0 fw-bold">New URL</p>
-                <small><%=computeShortlink(shortlink.destinationURL)%> </small>
+                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Destination URL</p>
+                <small class="user-select-all d-inline-block text-truncate"><%=shortlink.destinationURL%></small>
             </div>
             <hr>
             <div class="d-flex align-items-center">
-                <p class="me-auto mb-0 fw-bold">Description</p>
-                <small><%=shortlink.description%></small>
+                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">New URL</p>
+                <small class="user-select-all d-inline-block text-truncate"><%=shortlink.newURL%></small>
             </div>
             <hr>
+            <div class="d-flex align-items-center">
+                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Owner</p>
+                <small><a class="text-decoration-none"
+                        href="/user/@<%=owner.username%>">@<%=owner.username%></a></small>
+            </div>
         </div>
     </div>
-    <script>
-        function computeShortlink(name) {
-            const value = name.replace(' ', '_');
-            const currentURL = window.location.href;
-            return currentURL.substring(0, currentURL.lastIndexOf("/") + 1).substring(0, currentURL.lastIndexOf("/") +
-                1) + "@" + encodeURI(value);
-        }
-    </script>
 </main>

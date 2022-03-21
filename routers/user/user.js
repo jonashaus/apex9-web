@@ -80,6 +80,7 @@ router.get('/logout', (req, res, next) => {
 router.get('/@:username', isLoggedIn, wrapAsync(async (req, res, next) => {
     const { username } = req.params;
     const user = await User.findOne({ username: username });
+    console.log(user);
     if (!user) {
         const redirectUrl = req.session.originalUrl || '/';
         delete req.session.originalUrl;
