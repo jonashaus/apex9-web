@@ -39,12 +39,12 @@ router.get('/register', (req, res, next) => {
 router.post('/register', validateUser, wrapAsync(async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
-        const newUser = new User({ username, email });
+        const newUser = new User({ username, email, icon: "🦁" });
         const registeredUser = await User.register(newUser, password);
         req.login(registeredUser, err => {
             if (err) return next(err);
             req.flash('success', 'Welcome to apex9!');
-            res.redirect(`/user/@${registeredUser.username}`);
+            res.redirect('/user/me');
         })
     } catch (err) {
         throw new ExpressError(500, err.message);
@@ -76,6 +76,25 @@ router.get('/logout', (req, res, next) => {
     req.flash('success', 'You are now logged out!');
     res.redirect('/');
 })
+
+router.get('/me', isLoggedIn, (req, res, next) => {
+    const user = req.app.locals.currentUser;
+    res.render('user/me', { user })
+})
+
+router.post('/update', isLoggedIn, wrapAsync(async (req, res, next) => {
+    try {
+        if (!req.body.icon) {
+            //Do whatever update
+        } else {
+            //Update icon
+            const user = await User.findByIdAndUpdate(req.app.locals.currentUser.id, { icon: req.body.icon });
+        }
+        res.redirect('/user/me')
+    } catch (err) {
+        throw new ExpressError(500, err.message);
+    }
+}))
 
 router.get('/@:username', isLoggedIn, wrapAsync(async (req, res, next) => {
     const { username } = req.params;

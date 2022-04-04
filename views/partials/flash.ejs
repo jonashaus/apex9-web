@@ -1,13 +1,28 @@
-<% if(success && success.length) {%>
-<div class="alert alert-success alert-dismissible" role="alert">
-    <%= success %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-<% } %>
-
 <% if(error && error.length) {%>
 <div class="alert alert-danger alert-dismissible" role="alert">
     <%= error %>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
+<% } %>
+
+<% if(success && success.length) {%>
+<div class="toast-container position-absolute bottom-0 end-0 p-3">
+    <div id="flash-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="bi bi-square-fill text-primary me-1"></i>
+            <!-- <img src="..." class="rounded me-2" alt="..."> -->
+            <strong class="me-auto"> apex9</strong>
+            <small>just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            <%= success %>
+        </div>
+    </div>
+</div>
+<script>
+    const flashToast = document.getElementById("flash-toast")
+    const toast = new bootstrap.Toast(flashToast)
+    toast.show()
+</script>
 <% } %>

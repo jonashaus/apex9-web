@@ -1,0 +1,64 @@
+<% layout('layouts/boilerplate') %>
+<main class="container mt-5">
+    <div class="row">
+        <div class="col-md-3 border-end">
+            <div class="d-flex justify-content-center">
+                <div id="selectIcon" class="text-center c-user-icon-circle bg-secondary" title="Change Icon"
+                    role="button">
+                    <p class="user-select-none"><%=user.icon%></p>
+                </div>
+            </div>
+            <div id="selectableIcons" class="text-center d-none bg-secondary rounded m-1 p-1" role="button">
+                <span>🦁</span>
+                <span>🐵</span>
+                <span>🐶</span>
+                <span>🐺</span>
+                <span>🦊</span>
+                <span>🦝</span>
+                <span>🐱</span>
+                <span>🐭</span>
+                <span>🐹</span>
+                <span>🐰</span>
+                <span>🐨</span>
+                <span>🐻</span>
+                <span>🐼</span>
+                <span>🐸</span>
+            </div>
+            <form id="hiddenIconForm" name="hiddenIconForm" action="/user/update" method="POST" class="d-none">
+                <input type="text" id="iconInput" name="icon" value="<%=user.icon%>">
+            </form>
+            <h1><%=user.fullname%></h1>
+            <h2><%=user.username%></h2>
+        </div>
+        <div class="col-md-9 pt-5">
+            <!-- <h1>Active Applications</h1> -->
+            <%- include('../partials/work-in-progress') %>
+        </div>
+    </div>
+</main>
+<script>
+    var selectableIcons = document.getElementById("selectableIcons");
+
+    //Toggle Item Selection
+    document.getElementById("selectIcon").addEventListener("click", toggleItemSelection);
+
+    function toggleItemSelection() {
+        selectableIcons.classList.toggle("d-none")
+    }
+
+    //Icon Selection
+    if (selectableIcons.addEventListener) {
+        selectableIcons.addEventListener("click", clickHandler, false);
+    } else {
+        selectableIcons.attachEvent('onclick', clickHandler);
+    }
+
+    function clickHandler(event) {
+        const newIcon = event.target.innerHTML;
+        toggleItemSelection();
+        if (newIcon.length == 2) {
+            document.getElementById("iconInput").value = newIcon;
+            document.getElementById("hiddenIconForm").submit();
+        }
+    }
+</script>

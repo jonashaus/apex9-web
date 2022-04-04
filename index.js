@@ -16,7 +16,7 @@ const User = require('./models/user');
 const { isLoggedIn } = require('./utils/middleware');
 const mongoSanitize = require('express-mongo-sanitize');
 
-//#region DataBase
+//#region DataBases
 const uri = process.env.MongoDbURI;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, })
     .then(() => {
@@ -70,9 +70,11 @@ app.use((req, res, next) => {
 //#region Routes
 const userRoutes = require('./routers/user/user');
 const shortlinkRoutes = require('./routers/shortlink');
-const exp = require('constants');
+const lifeRoutes = require('./routers/life');
 app.use('/user', userRoutes);
 app.use('/s', shortlinkRoutes);
+app.use('/life', lifeRoutes);
+
 //#endregion
 
 app.get('/', (req, res) => {

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/jonashaus/apex9-web#readme",
   "dependencies": {
+    "@supabase/supabase-js": "^1.33.3",
     "connect-flash": "^0.1.1",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",

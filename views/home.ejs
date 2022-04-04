@@ -8,8 +8,9 @@
                     aria-selected="true">Active</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="area-upcoming-tab" data-bs-toggle="pill" data-bs-target="#upcoming-areas"
-                    type="button" role="tab" aria-controls="upcoming-areas" aria-selected="false">Upcoming</button>
+                <button class="nav-link c-bounce-quick" id="area-upcoming-tab" data-bs-toggle="pill"
+                    data-bs-target="#upcoming-areas" type="button" role="tab" aria-controls="upcoming-areas"
+                    aria-selected="false">Upcoming</button>
             </li>
         </ul>
         <div class="tab-content" id="pills-tabContent">
@@ -39,7 +40,7 @@
                                 style="max-height: 25vh;">
                             <div class="card-body">
                                 <p class="card-text">Build healthy habits and track your progress.</p>
-                                <a href="life" class="btn btn-primary">apex9<i>Life</i></a>
+                                <a href="life" class="btn btn-primary disabled">apex9<i>Life</i></a>
                             </div>
                         </div>
                     </div>
@@ -50,7 +51,7 @@
                                 style="max-height: 25vh;">
                             <div class="card-body">
                                 <p class="card-text">Create and publish your own pixel art.</p>
-                                <a href="graffiti" class="btn btn-primary">apex9<i>Graffiti</i></a>
+                                <a href="graffiti" class="btn btn-primary disabled">apex9<i>Graffiti</i></a>
                             </div>
                         </div>
                     </div>
@@ -61,7 +62,7 @@
                                 style="max-height: 25vh;">
                             <div class="card-body">
                                 <p class="card-text">Have a look at my current and upcoming projects.</p>
-                                <a href="gallery" class="btn btn-primary">apex9<i>Gallery</i></a>
+                                <a href="gallery" class="btn btn-primary disabled">apex9<i>Gallery</i></a>
                             </div>
                         </div>
                     </div>
@@ -69,4 +70,34 @@
             </div>
         </div>
     </div>
+    <div class="toast-container position-absolute bottom-0 end-0 p-3">
+        <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" autohide: false>
+            <div class="toast-header">
+                <i class="bi bi-square-fill text-primary me-1"></i>
+                <strong class="me-auto">apex9</strong>
+                <small>just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Welcome to apex9! Please note that this website is still a work in progress. If you discover a bug or
+                have other feedback, let me know (you probably have my number already😉). Cheers, Jonas
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#toast").toast({
+                delay: 7000
+            });
+            $("#toast").toast('show');
+        });
+
+        // setTimeout(openToast, 4000);
+
+        // function openToast() {
+        //     const toastElement = document.getElementById("toast");
+        //     const toast = new bootstrap.Toast(toastElement, autohide: false);
+        //     toast.show();
+        // }
+    </script>
 </main>

@@ -11,7 +11,7 @@ const geoIP = require('geoip-lite');
 const ExpressError = require('../utils/ExpressError');
 
 router.get('/', isLoggedIn, wrapAsync(async (req, res, next) => {
-    const shortlinks = await Shortlink.find({});
+    const shortlinks = await Shortlink.find({ owner: req.app.locals.currentUser });
     res.render('shortlink/shortlinks', { shortlinks });
 }))
 

@@ -1,13 +1,18 @@
 <% layout('layouts/boilerplate') %>
 <main class="container mt-5">
     <div class="row">
-        <div class="col-md-3  border-end">
-            <img src="https://avatars.githubusercontent.com/u/5498438?v=4" alt="" class="img-fluid rounded-circle">
+        <div class="col-md-3 border-end">
+            <div class="d-flex justify-content-center">
+                <div class="text-center c-user-icon-circle">
+                    <p class="user-select-none"><%=user.icon%></p>
+                </div>
+            </div>
             <h1><%=user.fullname%></h1>
             <h2><%=user.username%></h2>
         </div>
         <div class="col-md-9 pt-5">
-            <h1>Active Applications</h1>
+            <!-- <h1>Active Applications</h1> -->
+            <%- include('../partials/work-in-progress') %>
         </div>
     </div>
 </main>

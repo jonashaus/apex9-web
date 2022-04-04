@@ -1,0 +1,87 @@
+<% layout('layouts/boilerplate') %>
+<main>
+    <section class="container d-flex align-items-center justify-content-center" style="min-height: 85vh">
+        <div class="row">
+            <div class="col-md-6 mb-3 align-self-center">
+                <h1>apex9<i>life</i></h1>
+                <h3>Analyze your daily life.</h3>
+            </div>
+            <div class="col-md-6">
+                <img src="/images/fitness_stats.svg" class="img-fluid">
+            </div>
+        </div>
+    </section>
+    <div class="d-flex justify-content-center">
+        <i id="arrow-down" class="bi bi-arrow-down fs-1 c-bounce text-primary"></i>
+    </div>
+    <section class="container mt-5" id="details">
+        <div class="row">
+            <div class="col-md-8 mb-3 align-self-center">
+                <h1 class="mb-3">What it is</h1>
+                The platform is designed to motivate and help you achieve your goals by leveraging the power of
+                incentives
+                and social accountability to your advantage. No matter what your goal is - meditate, learn a
+                language,
+                lose
+                weight, quit smoking or drinking, exercise more often… We can help you achieve
+                it! End procrastination once and for all. Hold yourself accountable. Turn your goals into habits.
+            </div>
+            <div class="col-md-4 my-2">
+                <img src="/images/fitness_stats.svg" class="img-fluid">
+            </div>
+        </div>
+    </section>
+    <section class="mt-5 py-5 bg-light">
+        <div class="container">
+            <h1 class="mb-3">How it works</h1>
+            <div class="row">
+                <div class="col-md-6 col-lg-3 pe-3">
+                    <i class="bi bi-bullseye fs-1 text-primary"></i>
+                    <h4>Define your <b>habits</b></h4>
+                    <p>Envision your goals and define recurring habits in order to achieve them.</p>
+                </div>
+                <div class="col-md-6 col-lg-3 pe-3">
+                    <i class="bi bi-journal-check fs-1 text-primary"></i>
+                    <h4>Report your <b>achievements</b></h4>
+                    <p>Track your progress by reporting your successes or failures daily or weekly.</p>
+                </div>
+                <div class="col-md-6 col-lg-3 pe-3">
+                    <i class="bi bi-graph-up-arrow fs-1 text-primary"></i>
+                    <h4>Analyze your <b>progress</b></h4>
+                    <p>Charts let you easily spot positive or negative trends throughout your journey.</p>
+                </div>
+                <div class="col-md-6 col-lg-3 pe-3">
+                    <i class="bi bi-person-check fs-1 text-primary"></i>
+                    <h4>Hold yourself <b>accountable</b></h4>
+                    <p>Share your progress with friends. You can even ask them to verify your progress.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="container mt-5">
+        <h1 class="mb-3">Behavioral Sciences?</h1>
+        <div>
+            The entire platform is based on the principles of Richard Thaler's "Nudge Theory":
+            <p class="text-secondary">
+                <i>"Nudge theory is a concept in behavioral economics and behavioral sciences that proposes positive
+                    reinforcement and indirect suggestions as ways to influence the behavior and
+                    decision-making of groups or individuals."
+                </i>
+            </p>
+        </div>
+    </section>
+    <section class="mt-5 py-5 bg-light">
+        <div class="container text-center">
+            <h1>Future you is waiting!</h1>
+            <button class="btn btn-primary px-5 my-3">Get started!</button>
+        </div>
+    </section>
+</main>
+<script>
+    document.getElementById('arrow-down').addEventListener('click', showdetails);
+
+    function showdetails() {
+        console.log('hello')
+        document.getElementById('details').scrollIntoView();
+    }
+</script>
