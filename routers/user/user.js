@@ -29,6 +29,7 @@ const mapIdentifierToUsername = wrapAsync(async (req, res, next) => {
 })
 
 router.get('/register', (req, res, next) => {
+    console.log(req.app.locals.currentUser);
     if (!req.app.locals.currentUser) {
         res.render('user/register');
     } else {

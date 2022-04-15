@@ -5,7 +5,7 @@ const wrapAsync = require('../utils/wrapAsync');
 const ExpressError = require('../utils/ExpressError');
 
 router.get('/', wrapAsync(async (req, res, next) => {
-    if (req.app.locals.currentUser == undefined) {
+    if (!req.app.locals.currentUser) {
         res.render('life/intro');
     } else {
         res.redirect('/life/dashboard')

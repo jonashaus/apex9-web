@@ -36,6 +36,7 @@ app.set('view engine', 'ejs');
 
 //#region Uses
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(mongoSanitize());
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
 //Response Locals
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
+    res.locals.warning = req.flash('warning');
     res.locals.error = req.flash('error');
     next();
 })
@@ -74,7 +76,6 @@ const lifeRoutes = require('./routers/life');
 app.use('/user', userRoutes);
 app.use('/s', shortlinkRoutes);
 app.use('/life', lifeRoutes);
-
 //#endregion
 
 app.get('/', (req, res) => {

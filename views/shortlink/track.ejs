@@ -1,13 +1,58 @@
 <% layout('layouts/boilerplate') %>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css' rel='stylesheet' />
 <main class="container">
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-auto">Shortlink Information</h1>
-        <a href="<%=shortlink.newURL%>" class="btn btn-primary ms-3" role="button">Launch</a>
+        <a href="<%=shortlink.newURL%>" class="btn btn-primary ms-3" role="button">Open</a>
     </div>
     <div class="row">
         <div class="col-md-8 pe-md-5">
-            <h3 class="mb-3">Traffic Analysis</h3>
+            <h3 class="mb-3">Traffic Analytics</h3>
             <% if(accesses.length > 0) {%>
+
+            <div id='map' style='width: 100%; height: 300px;' class="mb-3"></div>
+
+            <script>
+                var geojson = {
+                    type: 'FeatureCollection',
+                    features: []
+                };
+            </script>
+
+            <% for(let access of accesses) {%>
+            <script>
+                var coord = '<%=access.coordinates%>';
+                geojson.features.push({
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [coord.split(',')[1], coord.split(',')[0]]
+                    }
+                })
+            </script>
+            <% } %>
+
+            <script>
+                mapboxgl.accessToken = '<%=process.env.MAPBOX_TOKEN%>';
+                const map = new mapboxgl.Map({
+                    container: 'map', // container ID
+                    style: 'mapbox://styles/mapbox/streets-v11', // style URL
+                    center: [8.3, 46.7], // starting position [lng, lat]
+                    zoom: 5.5 // starting zoom
+                });
+
+                // add markers to map
+                for (const feature of geojson.features) {
+                    // create a HTML element for each feature
+                    const el = document.createElement('div');
+                    el.className = 'c-mapbox-marker';
+
+                    // make a marker for each feature and add to the map
+                    new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
+                }
+            </script>
+
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -55,20 +100,77 @@
             </div>
             <hr>
             <div class="d-flex align-items-center">
-                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Destination URL</p>
-                <small class="user-select-all d-inline-block text-truncate"><%=shortlink.destinationURL%></small>
-            </div>
-            <hr>
-            <div class="d-flex align-items-center">
                 <p class="me-auto mb-0 fw-bold text-nowrap pe-3">New URL</p>
                 <small class="user-select-all d-inline-block text-truncate"><%=shortlink.newURL%></small>
             </div>
             <hr>
             <div class="d-flex align-items-center">
+                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Tracking Link</p>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#shareTracking">Share <i
+                        class="bi bi-box-arrow-up-right"></i></button>
+                <!-- Modal -->
+                <div class="modal fade" id="shareTracking" tabindex="-1" aria-labelledby="modalTitle"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalTitle">Share Tracking Link</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Anyone with this link, even persons without an apex9 account will have access to the
+                                tracking details of your shortlink.
+                                If you don't have an apex9 account, this link is the only way to access your shortlink
+                                analytics.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button id="copyTrackingLink" type="button" class="btn btn-primary"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-original-title="Copy to clipboard">Share <i
+                                        class="bi bi-box-arrow-up-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex align-items-center">
+                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Destination URL</p>
+                <small class="user-select-all d-inline-block text-truncate"><%=shortlink.destinationURL%></small>
+            </div>
+            <hr>
+            <div class="d-flex align-items-center">
                 <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Owner</p>
+                <% if(!shortlink.owner){%>
+                <small>none</small>
+                <% }else{ %>
                 <small><a class="text-decoration-none"
-                        href="/user/@<%=owner.username%>">@<%=owner.username%></a></small>
+                        href="/user/@<%=shortlink.owner.username%>">@<%=shortlink.owner.username%></a></small>
+                <% } %>
             </div>
         </div>
     </div>
 </main>
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+    const btnCopyTrackingLink = document.getElementById('copyTrackingLink')
+    btnCopyTrackingLink.addEventListener("click", copyTrackingLink);
+    btnCopyTrackingLink.addEventListener("mouseleave", exitTrackingLink);
+
+    function copyTrackingLink() {
+        navigator.clipboard.writeText(window.location.href)
+        btnCopyTrackingLink.setAttribute('data-bs-original-title', 'Copied!');
+        bootstrap.Tooltip.getInstance(btnCopyTrackingLink).show();
+    }
+
+    function exitTrackingLink() {
+        btnCopyTrackingLink.setAttribute('data-bs-original-title', 'Copy to clipboard');
+        bootstrap.Tooltip.getInstance(btnCopyTrackingLink).hide();
+    }
+</script>

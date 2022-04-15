@@ -75,3 +75,11 @@
     vertical-align: middle;
     display: table-cell;
 }
+
+.c-mapbox-marker {
+    background: #0D6EFD;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+}
