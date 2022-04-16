@@ -3,12 +3,12 @@ const Shortlink = require('../models/shortlink/shortlink');
 const ShortlinkAccess = require('../models/shortlink/shortlinkaccess');
 const requestInfo = require('request-info');
 const geoIP = require('geoip-lite');
+const mongoose = require('mongoose');
 const ExpressError = require('../utils/ExpressError');
 
 //#region Website
 module.exports.index = async (req, res, next) => {
     if (!req.app.locals.currentUser) {
-        req.flash('warning', 'You are not logged in! Your Tracking Link will be the only way to access your shortlink analytics.');
         res.redirect('/s/create');
     } else {
         const shortlinks = await Shortlink.find({ owner: req.app.locals.currentUser });
@@ -26,6 +26,46 @@ module.exports.trackShortlink = async (req, res) => {
         return res.redirect(redirectUrl);
     }
     const accesses = await ShortlinkAccess.find({ shortlink: shortlink.id });
+
+    //#region Get90DayData (Unused)
+    /*     const today = new Date();
+        const ObjectId = mongoose.Types.ObjectId;
+        const aggregatedAccesses90days = await ShortlinkAccess.aggregate([
+            {
+                $match: {
+                    'shortlink': ObjectId(shortlink.id)
+                }
+            },
+            {
+                $group: {
+                    "_id": {
+                        year: { $year: "$timestamp" },
+                        month: { $month: "$timestamp" },
+                        day: { $dayOfMonth: "$timestamp" },
+                    },
+                    "count": {
+                        $sum: 1
+                    }
+                }
+            }
+        ]);
+    
+        console.log(aggregatedAccesses90days)
+    
+        const data90days = [];
+        for (const aggregate in aggregatedAccesses90days) {
+            data90days.push({
+                date:
+                    new Date(
+                        aggregatedAccesses90days[aggregate]._id.year,
+                        aggregatedAccesses90days[aggregate]._id.month,
+                        aggregatedAccesses90days[aggregate]._id.day
+                    ),
+                count: aggregatedAccesses90days[aggregate].count
+            })
+        }
+        console.log(data90days) */
+    //#endregion
     res.render('shortlink/track', { shortlink, accesses });
 }
 

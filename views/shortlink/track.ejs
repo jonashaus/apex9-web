@@ -4,12 +4,17 @@
 <main class="container">
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-auto">Shortlink Information</h1>
-        <a href="<%=shortlink.newURL%>" class="btn btn-primary ms-3" role="button">Open</a>
+        <button id="btnCopyShortlink" type="button" class="btn btn-primary" data-bs-toggle="tooltip"
+            data-bs-placement="top" data-bs-original-title="Copy to clipboard" value="<%=shortlink.newURL%>">Share <i
+                class="bi bi-box-arrow-up-right"></i></button>
     </div>
     <div class="row">
         <div class="col-md-8 pe-md-5">
-            <h3 class="mb-3">Traffic Analytics</h3>
-            <% if(accesses.length > 0) {%>
+            <h3 class="mb-3">Tracking Analytics</h3>
+
+            <% if(!accesses.length > 0) {%>
+            <p>Your shortlink has not been accessed yet.</p>
+            <% } %>
 
             <div id='map' style='width: 100%; height: 300px;' class="mb-3"></div>
 
@@ -39,7 +44,7 @@
                     container: 'map', // container ID
                     style: 'mapbox://styles/mapbox/streets-v11', // style URL
                     center: [8.3, 46.7], // starting position [lng, lat]
-                    zoom: 5.5 // starting zoom
+                    zoom: 0 // starting zoom, 5.5 for focus on Switzerland
                 });
 
                 // add markers to map
@@ -53,15 +58,17 @@
                 }
             </script>
 
+            <% if(accesses.length > 0) {%>
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Timestamp</th>
                         <th scope="col" class="d-none d-lg-table-cell">IP</th>
-                        <th scope="col">Location</th>
+                        <th scope="col">Location <i class="bi bi-info-circle text-primary" data-bs-toggle="modal"
+                                data-bs-target="#locationInfo"></i></th>
                         <th scope="col" class="d-none d-lg-table-cell">Coordinates</th>
                         <th scope="col">Device</th>
-                        <th scope="col">Browser</th>
+                        <th scope="col" class="d-none d-lg-table-cell">Browser</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,17 +79,42 @@
                         <td><%=access.location%></td>
                         <td class="d-none d-lg-table-cell"><%=access.coordinates%></td>
                         <td><%=access.device%></td>
-                        <td><%=access.browser%></td>
+                        <td class="d-none d-lg-table-cell"><%=access.browser%></td>
                     </tr>
                     <% } %>
                 </tbody>
             </table>
-            <% } else { %>
-            <div class="row d-flex align-items-center justify-content-center text-center" style="min-height: 30vh">
-                <div class="col-12"><i>Once your shortlink has been accessed at least once, we will analyze the traffic
-                        for you.</i></div>
-                <div class="col-12"><img src="/images/location_tracking.svg" alt="" class="img-fluid"
-                        style="max-height: 25vh;">
+
+            <!-- Modal -->
+            <div class="modal fade" id="locationInfo" tabindex="-1" aria-labelledby="locationInfoModalTitle"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="locationInfoModalTitle">Location Info</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Geolocation Accuracy</h5>
+                            <p>Please note that the location is only an approximation based on the IP address of the
+                                HTTP request and can be bypassed using a VPN.</p>
+                            <p>Rough Accuracy Measures:</p>
+                            <ul>
+                                <li>Country: 95 % to 99 % accuracy</li>
+                                <li>Region: 55 % to 80 % accuracy</li>
+                                <li>City: 50 % to 75 % accuracy</li>
+                            </ul>
+                            <p>To learn more about this, click <a
+                                    href="https://www.iplocation.net/geolocation-accuracy">here</a>.</p>
+                            <br>
+                            <h5>Bots</h5>
+                            If you have posted your shortlink on social media (Instagram, Twitter, etc.), you may see
+                            results from "bots".
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <% } %>
@@ -105,24 +137,29 @@
             </div>
             <hr>
             <div class="d-flex align-items-center">
-                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Tracking Link</p>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#shareTracking">Share <i
-                        class="bi bi-box-arrow-up-right"></i></button>
+                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Tracking Analytics</p>
+                <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#shareTracking">Share
+                    Analytics <i class="bi bi-box-arrow-up-right"></i></button>
                 <!-- Modal -->
                 <div class="modal fade" id="shareTracking" tabindex="-1" aria-labelledby="modalTitle"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="modalTitle">Share Tracking Link</h5>
+                                <h5 class="modal-title" id="modalTitle">Share Tracking Analytics</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                Anyone with this link, even persons without an apex9 account will have access to the
-                                tracking details of your shortlink.
-                                If you don't have an apex9 account, this link is the only way to access your shortlink
-                                analytics.
+                                Anyone with this link will have access to your tracking analytics.
+                                <% if(!shortlink.owner){%>
+                                <p>
+                                    <i>
+                                        <b>Important: </b>As you don't have an apex9 account, this link is the only way
+                                        to access your tracking analytics.
+                                    </i>
+                                </p>
+                                <% }%>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -159,12 +196,27 @@
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 
-    const btnCopyTrackingLink = document.getElementById('copyTrackingLink')
+    const btnCopyShortlink = document.getElementById('btnCopyShortlink');
+    btnCopyShortlink.addEventListener('click', copyShortlink);
+    btnCopyShortlink.addEventListener('mouseleave', exitShortlink);
+
+    function copyShortlink() {
+        navigator.clipboard.writeText(btnCopyShortlink.value);
+        btnCopyShortlink.setAttribute('data-bs-original-title', 'Copied!');
+        bootstrap.Tooltip.getInstance(btnCopyShortlink).show();
+    }
+
+    function exitShortlink() {
+        btnCopyShortlink.setAttribute('data-bs-original-title', 'Copy to clipboard');
+        bootstrap.Tooltip.getInstance(btnCopyShortlink).hide();
+    }
+
+    const btnCopyTrackingLink = document.getElementById('copyTrackingLink');
     btnCopyTrackingLink.addEventListener("click", copyTrackingLink);
     btnCopyTrackingLink.addEventListener("mouseleave", exitTrackingLink);
 
     function copyTrackingLink() {
-        navigator.clipboard.writeText(window.location.href)
+        navigator.clipboard.writeText(window.location.href);
         btnCopyTrackingLink.setAttribute('data-bs-original-title', 'Copied!');
         bootstrap.Tooltip.getInstance(btnCopyTrackingLink).show();
     }
