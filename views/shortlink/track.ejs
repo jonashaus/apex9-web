@@ -56,6 +56,12 @@
                     // make a marker for each feature and add to the map
                     new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(map);
                 }
+
+                // disable map rotation using right click + drag
+                map.dragRotate.disable();
+
+                // disable map rotation using touch rotation gesture
+                map.touchZoomRotate.disableRotation();
             </script>
 
             <% if(accesses.length > 0) {%>
