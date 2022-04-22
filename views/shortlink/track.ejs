@@ -26,6 +26,7 @@
             </script>
 
             <% for(let access of accesses) {%>
+            <% if(access.coordinates != 'Unknown') {%>
             <script>
                 var coord = '<%=access.coordinates%>';
                 geojson.features.push({
@@ -37,6 +38,7 @@
                 })
             </script>
             <% } %>
+            <% } %>
 
             <script>
                 mapboxgl.accessToken = '<%=process.env.MAPBOX_TOKEN%>';
@@ -44,7 +46,8 @@
                     container: 'map', // container ID
                     style: 'mapbox://styles/mapbox/streets-v11', // style URL
                     center: [8.3, 46.7], // starting position [lng, lat]
-                    zoom: 0 // starting zoom, 5.5 for focus on Switzerland
+                    zoom: 0, // starting zoom, 5.5 for focus on Switzerland
+                    maxZoom: 9
                 });
 
                 // add markers to map
@@ -70,9 +73,12 @@
                     <tr>
                         <th scope="col">Timestamp (CEST)</th>
                         <th scope="col" class="d-none d-lg-table-cell">IP</th>
-                        <th scope="col">Location <i class="bi bi-info-circle text-primary" data-bs-toggle="modal"
+                        <th scope="col">Location
+                            <i class="bi bi-info-circle text-primary" data-bs-toggle="modal"
                                 data-bs-target="#locationInfo"></i></th>
-                        <th scope="col" class="d-none d-lg-table-cell">Coordinates</th>
+                        <th scope="col" class="d-none d-lg-table-cell">Coordinates
+                            <i class="bi bi-info-circle text-primary" data-bs-toggle="modal"
+                                data-bs-target="#locationInfo"></i></th>
                         <th scope="col">Device</th>
                         <th scope="col" class="d-none d-lg-table-cell">Browser</th>
                     </tr>
@@ -90,26 +96,28 @@
                     <% } %>
                 </tbody>
             </table>
-
-            <!-- Modal -->
+            <!-- Location Modal -->
             <div class="modal fade" id="locationInfo" tabindex="-1" aria-labelledby="locationInfoModalTitle"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="locationInfoModalTitle">Location Info</h5>
+                            <h5 class="modal-title" id="locationInfoModalTitle">Location & Coordinates Info</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <h5>Geolocation Accuracy</h5>
                             <p>Please note that the location is only an approximation based on the IP address of the
-                                HTTP request and can be bypassed using a VPN.</p>
+                                HTTP request and can be bypassed using a VPN. The coordinates will never be 100 %
+                                precise.</p>
                             <p>Rough Accuracy Measures:</p>
                             <ul>
                                 <li>Country: 95 % to 99 % accuracy</li>
                                 <li>Region: 55 % to 80 % accuracy</li>
                                 <li>City: 50 % to 75 % accuracy</li>
                             </ul>
+                            <p>If only the country of an access is known, the coordinates will be highlighted as
+                                'Unknown' and the access will be hidden on the map.</p>
                             <p>To learn more about this, click <a
                                     href="https://www.iplocation.net/geolocation-accuracy">here</a>.</p>
                             <br>
@@ -182,6 +190,11 @@
             <div class="d-flex align-items-center">
                 <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Destination URL</p>
                 <small class="user-select-all d-inline-block text-truncate"><%=shortlink.destinationURL%></small>
+            </div>
+            <hr>
+            <div class="d-flex align-items-center">
+                <p class="me-auto mb-0 fw-bold text-nowrap pe-3">Total Accesses</p>
+                <small class="user-select-all d-inline-block text-truncate"><%=accesses.length%></small>
             </div>
             <hr>
             <div class="d-flex align-items-center">

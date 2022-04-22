@@ -102,7 +102,7 @@ module.exports.launchShortlink = async (req, res, next) => {
     } else {
         const reqInfo = requestInfo(req);
         if (process.env.NODE_ENV !== "production") {
-            reqInfo.ip = '86.102.164.101';
+            reqInfo.ip = '87.102.164.101';
         } else {
             reqInfo.ip = req.header('x-forwarded-for');
         }
@@ -111,10 +111,10 @@ module.exports.launchShortlink = async (req, res, next) => {
             shortlink: shortlink,
             timestamp: new Date(),
             ip: reqInfo.ip,
-            location: geodata.city + " " + geodata.country,
+            location: [geodata.country, geodata.region, geodata.city].filter(x => x).join(', '),
             device: reqInfo.ua.device.model,
             browser: reqInfo.ua.browser.name,
-            coordinates: geodata.ll
+            coordinates: (!geodata.city) ? 'Unknown' : geodata.ll
         }).save();
         res.redirect(shortlink.destinationURL);
     }

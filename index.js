@@ -2,8 +2,6 @@ if (process.env.NODE_ENV !== "production") {//Configure in Heroku for production
     require('dotenv').config();
 }
 const express = require('express');
-const http = require('http');
-const enforce = require('express-sslify');
 const app = express();
 const ExpressError = require('./utils/ExpressError');
 const path = require('path');
@@ -37,13 +35,23 @@ app.set('view engine', 'ejs');
 //#endregion
 
 //#region Uses
-if (process.env.NODE_ENV == "production") {
-    app.use(enforce.HTTPS({ trustProtoHeader: true })); // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind a load balancer (e.g. Heroku). See further comments below
+
+//Forced HTTPS
+if (process.env.NODE_ENV === 'production') {
+    app.use((req, res, next) => {
+        if (req.header('x-forwarded-proto') !== 'https')
+            res.redirect(`https://${req.header('host')}${req.url}`)
+        else
+            next();
+    })
 }
+
+//Express
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, '/public')));
+
+app.use(methodOverride('_method'));
 app.use(mongoSanitize());
 
 //Session

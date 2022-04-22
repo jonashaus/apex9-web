@@ -27,7 +27,6 @@
     "express": "^4.17.3",
     "express-mongo-sanitize": "^2.2.0",
     "express-session": "^1.17.2",
-    "express-sslify": "^1.2.0",
     "geoip-lite": "^1.4.4",
     "joi": "^17.6.0",
     "method-override": "^3.0.0",
