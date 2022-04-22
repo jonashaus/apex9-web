@@ -75,7 +75,7 @@ module.exports.renderCreateForm = (req, res, next) => {
 
 module.exports.createShortlink = async (req, res, next) => {
     const { description, name, destinationURL } = req.body;
-    const newURL = req.protocol + '://' + req.get('host') + "/s/@" + encodeURI(name.replace(/ /g, '_'));
+    const newURL = 'https://apex9.io/s/@' + encodeURI(name.replace(/ /g, '_'));
     const newShortlink = await new Shortlink({ name, newURL, description, destinationURL, owner: req.app.locals.currentUser }).save();
     req.flash('success', 'Shortlink created!');
     res.redirect(`/s/track/${newShortlink.id}`);
@@ -111,7 +111,7 @@ module.exports.launchShortlink = async (req, res, next) => {
             shortlink: shortlink,
             timestamp: new Date(),
             ip: reqInfo.ip,
-            location: geodata.city + " (" + geodata.country + ")",
+            location: geodata.city + " " + geodata.country,
             device: reqInfo.ua.device.model,
             browser: reqInfo.ua.browser.name,
             coordinates: geodata.ll

@@ -2,6 +2,8 @@ if (process.env.NODE_ENV !== "production") {//Configure in Heroku for production
     require('dotenv').config();
 }
 const express = require('express');
+const http = require('http');
+const enforce = require('express-sslify');
 const app = express();
 const ExpressError = require('./utils/ExpressError');
 const path = require('path');
@@ -35,6 +37,9 @@ app.set('view engine', 'ejs');
 //#endregion
 
 //#region Uses
+if (process.env.NODE_ENV == "production") {
+    app.use(enforce.HTTPS({ trustProtoHeader: true })); // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind a load balancer (e.g. Heroku). See further comments below
+}
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
@@ -73,9 +78,13 @@ app.use((req, res, next) => {
 const userRoutes = require('./routers/user/user');
 const shortlinkRoutes = require('./routers/shortlink');
 const lifeRoutes = require('./routers/life');
+const faqRoutes = require('./routers/faq');
+const whiteboardRoutes = require('./routers/whiteboard');
 app.use('/user', userRoutes);
 app.use('/s', shortlinkRoutes);
 app.use('/life', lifeRoutes);
+app.use('/faq', faqRoutes);
+app.use('/whiteboard', whiteboardRoutes);
 //#endregion
 
 app.get('/', (req, res) => {

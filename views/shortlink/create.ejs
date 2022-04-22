@@ -10,9 +10,12 @@
                         name="description" required></input>
                 </div>
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name (defines URL)</label>
-                    <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp"
-                        placeholder='e.g. "SHD22"' autocomplete="false" required>
+                    <label for="name" class="form-label">New URL</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="base-url">https://apex9.io/s/@</span>
+                        <input type="text" class="form-control" id="name" name="name" aria-describedby="base-url"
+                            placeholder='e.g. "SHD21"' autocomplete="false" required>
+                    </div>
                     <div id="nameHelp" class="invalid-feedback">This name is already in use, try another one.</div>
                     <div class="d-flex justify-content-start form-text">
                         <div class="me-1">Your shortened URL will be:</div>
