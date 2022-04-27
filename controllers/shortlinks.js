@@ -17,6 +17,7 @@ module.exports.index = async (req, res, next) => {
 }
 
 module.exports.trackShortlink = async (req, res) => {
+    console.log(req.app.locals.currentUser)
     const { id } = req.params;
     const shortlink = await Shortlink.findById(id).populate({ path: 'owner' });
     if (!shortlink) {
